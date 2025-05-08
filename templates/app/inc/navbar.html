@@ -1,0 +1,120 @@
+{% load static %}
+
+
+<style>
+  #search-results {
+  position: absolute;
+  z-index: 1050;
+  width: 100%;
+  background-color:  white;
+  border-top: none;
+  border-radius: 0 0 0.5rem 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+  transition: all 0.2s ease-in-out;
+  top: 55px;
+}
+
+#search-results .list-group-item {
+  transition: background-color 0.2s ease;
+}
+
+#search-results .list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+</style>
+
+<!-- Navbar-->
+<header class="navbar navbar-expand-lg navbar-light  fixed-top bg-secondary" data-scroll-header>
+  <div class="container">
+
+    <a class="navbar-brand me-3 me-xl-4 text-primary" href="{% url 'index' %}">
+      <img src="{% static 'images/agarlogo.png' %}" alt="" style="width: 100px !important; height: 100px !important;">
+
+    </a>
+
+    <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    {% if request.user.is_authenticated %}
+    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'dashboard_index' %}" ><i class="fi-user me-2"></i>Dashboard</a>
+    {% else %}
+    <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'login' %}" ><i class="fi-user me-2"></i>Sign in</a>
+  
+    <a class="btn btn-primary btn-sm rounded-pill ms-2 order-lg-3" href="city-guide-add-business.html"><i class="fi-plus me-2"></i>Add<span class='d-none d-sm-inline'> business</span></a>
+    {% endif %}
+    <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
+      <!-- <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Vendor</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="city-guide-add-business.html">Add Business</a></li>
+            <li><a class="dropdown-item" href="city-guide-business-promotion.html">Business Promotion</a></li>
+            <li><a class="dropdown-item" href="city-guide-vendor-businesses.html">My Businesses</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="city-guide-about.html">About</a></li>
+            <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Blog</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="city-guide-blog.html">Blog Grid</a></li>
+                <li><a class="dropdown-item" href="city-guide-blog-single.html">Single Post</a></li>
+              </ul>
+            </li>
+            <li><a class="dropdown-item" href="city-guide-contacts.html">Contacts</a></li>
+            <li class="dropdown"><a class="dropdown-item dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Help Center</a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="city-guide-help-center.html">Help Topics</a></li>
+                <li><a class="dropdown-item" href="city-guide-help-center-single-topic.html">Single Topic</a></li>
+              </ul>
+            </li>
+            <li><a class="dropdown-item" href="city-guide-404.html">404 Not Found</a></li>
+            
+          </ul>
+        </li>
+        <li class="nav-item d-lg-none"><a class="nav-link" href="#signin-modal" data-bs-toggle="modal"><i class="fi-user me-2"></i>Sign in</a></li>
+      </ul> -->
+      <form class="form-group d-block d-md-flex position-relative rounded-md-pill mx-auto" style="width: 80%;height: 50px;" id="search-form">
+        <div class="input-group input-group-lg border-end-md">
+          <span class="input-group-text text-muted rounded-pill ps-3"><i class="fi-search"></i></span>
+          <input id="search-input" class="form-control" type="text" placeholder="What are you looking for?" autocomplete="off">
+        </div>
+        <div id="search-results" class="mt-2"></div>
+      </form>
+    </div>
+
+
+  </div>
+
+  
+</header>
+
+
+<!-- Page content-->
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    searchInput.addEventListener('input', function() {
+      const query = searchInput.value;
+      if (query) {
+        fetch(`/search/?q=${query}`)
+          .then(response => response.json())
+          .then(data => {
+            searchResults.innerHTML = data.html;
+          });
+      } else {
+        searchResults.innerHTML = '';
+      }
+    });
+  });
+</script>
+
+
+
