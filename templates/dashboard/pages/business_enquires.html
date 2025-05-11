@@ -7,13 +7,6 @@
         <h1 class="text-2xl font-bold">Business Enquiries</h1>
     </div>
 
-    {% if messages %}
-        <div class="mb-4">
-            {% for message in messages %}
-                <div class="p-4 rounded bg-green-100 text-green-800">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
 
     {% if enquires %}
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -22,6 +15,7 @@
                 <tr>
                     <th class="px-6 py-3">Enquired Person</th>
                     <th class="px-6 py-3">Message</th>
+                    <th class="px-6 py-3">Mobile</th>
                     <th class="px-6 py-3">Action</th>
                 </tr>
             </thead>
@@ -32,6 +26,7 @@
                         {{ item.enquired_person.first_name|default:item.enquired_person.username }}
                     </td>
                     <td class="px-6 py-4">{{ item.message }}</td>
+                    <td class="px-6 py-4">{{ item.enquired_person.mobile }}</td>
                     <td class="px-6 py-4">
                         <button onclick="openDeleteModal('{{ item.id }}')" class="px-3 py-1 text-red-700">Delete</button>
                     </td>

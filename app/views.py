@@ -22,7 +22,7 @@ def index(request):
     try:
         zodiac_message = ZodiacDailyMessage.objects.get(date=date.today())
     except ZodiacDailyMessage.DoesNotExist:
-        zodiac_message = ZodiacDailyMessage.objects.order_by('-date').first()
+        zodiac_message = None
 
     return render(
         request,
@@ -35,6 +35,13 @@ def index(request):
             'news':news
         }
     )
+
+def about(request):
+    return render(request,'app/pages/about.html')
+
+def contact(request):
+    return render(request,'app/pages/contact.html')
+
 
 
 '''

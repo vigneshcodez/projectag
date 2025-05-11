@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('',views.index,name='index'),
+    path('about/',views.about,name='about'),
+    path('contact/',views.contact,name='contact'),
     path('business-detail/<slug:slug>/',views.business_detail,name='business_detail'),
     # Sub-subcategory route (deepest first to avoid conflict)
     path('<slug:location>/<slug:grandparent_slug>/<slug:parent_slug>/<slug:slug>/', views.category_detail, name='sub_subcategory_detail'),

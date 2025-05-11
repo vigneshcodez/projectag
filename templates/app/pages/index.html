@@ -3,39 +3,6 @@
 {% block content %}
 
 
-    <!-- Demo switcher (offcanvas)-->
-    <div class="offcanvas offcanvas-end" id="demo-switcher">
-      <div class="offcanvas-header d-block border-bottom">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-          <h2 class="h5 mb-0">Choose Demo</h2>
-          <button class="btn-close" type="button" data-bs-dismiss="offcanvas"></button>
-        </div>
-        <div class="d-flex"><a class="btn btn-outline-secondary btn-sm w-100 me-2" href="index.html"><i class="fi-home me-2"></i>Main Page</a><a class="btn btn-outline-secondary btn-sm w-100" href="components/typography.html"><i class="fi-file me-2"></i>Docs / UI Kit</a></div>
-      </div>
-      <div class="offcanvas-body">
-        <div class="card card-hover shadow-sm mb-4"><img class="card-img-top" src="{% static 'orgin/img/intro/demos/offcanvas/car-finder.jpg' %}" alt="Car Finder Demo">
-          <div class="card-body p-3">
-            <h3 class="fs-base card-title text-center"><a class="nav-link stretched-link" href="car-finder-home.html">Car Finder Demo</a></h3>
-          </div>
-        </div>
-        <div class="card card-hover shadow-sm mb-4"><img class="card-img-top" src="{% static 'orgin/img/intro/demos/offcanvas/real-estate.jpg' %}" alt="Real Estate Demo">
-          <div class="card-body p-3">
-            <h3 class="fs-base card-title text-center"><a class="nav-link stretched-link" href="real-estate-home-v1.html">Real Estate Demo</a></h3>
-          </div>
-        </div>
-        <div class="card card-hover shadow-sm mb-4"><img class="card-img-top" src="{% static 'orgin/img/intro/demos/offcanvas/job-board.jpg' %}" alt="Job Board Demo">
-          <div class="card-body p-3">
-            <h3 class="fs-base card-title text-center"><a class="nav-link stretched-link" href="job-board-home-v1.html">Job Board Demo</a></h3>
-          </div>
-        </div>
-        <div class="card card-hover shadow-sm mb-4"><img class="card-img-top" src="{% static 'orgin/img/intro/demos/offcanvas/city-guide.jpg' %}" alt="City Guide Demo">
-          <div class="card-body p-3">
-            <h3 class="fs-base card-title text-center"><a class="nav-link stretched-link" href="city-guide-home-v1.html">City Guide Demo</a></h3>
-          </div>
-        </div>
-      </div>
-      <div class="offcanvas-footer border-top"><a class="btn btn-primary btn-lg w-100" href="https://themes.getbootstrap.com/product/finder-directory-listings-template-ui-kit/" target="_blank" rel="noopener"><i class="fi-cart fs-lg me-2"></i>Buy Finder</a></div>
-    </div>
     <!-- Page loading spinner-->
     <div class="page-loading active">
       <div class="page-loading-inner">
@@ -44,19 +11,24 @@
     </div>
     <main class="page-wrapper">
       {% include 'app/inc/navbar.html' %}
-      <br>
-      <br>
-      <br>
-      <br>
+
 
   
       
-      <div class="news-bar mt-5 ">
-        <div class="news-title bg-primary py-4 z-index" style="z-index: 20;">News</div>
+      <div class="news-bar mt-4 ">
+        <div class="news-title bg-primary py-4 z-index" style="z-index: 20;color:">News</div>
         <div class="flex-grow-1">
           <div class="news-scroll">
             {% for item in news %}
-            <span>{{item.news}} &nbsp;&nbsp;&nbsp;</span>  
+              {% if item.url %}
+              <a href="{{item.url}}" class="text-white">
+                <span>{{item.news}} &nbsp;&nbsp;&nbsp;</span>  
+              </a>
+              {% else %}
+              <a href="#" class="text-white text-decoration-none px-5">
+                <span>{{item.news}} &nbsp;&nbsp;&nbsp;</span>  
+              </a>
+              {% endif %}
             {% endfor %}
           </div>
         </div>
@@ -135,18 +107,18 @@
         </div>
         <div class="news-feed-container">
           {% if zodiac_message %}
-            <div class="news-item">♈ Aries: {{ zodiac_message.aries }}</div>
-            <div class="news-item">♉ Taurus: {{ zodiac_message.taurus }}</div>
-            <div class="news-item">♊ Gemini: {{ zodiac_message.gemini }}</div>
-            <div class="news-item">♋ Cancer: {{ zodiac_message.cancer }}</div>
-            <div class="news-item">♌ Leo: {{ zodiac_message.leo }}</div>
-            <div class="news-item">♍ Virgo: {{ zodiac_message.virgo }}</div>
-            <div class="news-item">♎ Libra: {{ zodiac_message.libra }}</div>
-            <div class="news-item">♏ Scorpio: {{ zodiac_message.scorpio }}</div>
-            <div class="news-item">♐ Sagittarius: {{ zodiac_message.sagittarius }}</div>
-            <div class="news-item">♑ Capricorn: {{ zodiac_message.capricorn }}</div>
-            <div class="news-item">♒ Aquarius: {{ zodiac_message.aquarius }}</div>
-            <div class="news-item">♓ Pisces: {{ zodiac_message.pisces }}</div>
+            <div class="news-item">♈ Aries: <span class="text-primary">{{ zodiac_message.aries }}</span> </div>
+            <div class="news-item">♉ Taurus: <span class="text-primary">{{ zodiac_message.taurus }}</span></div>
+            <div class="news-item">♊ Gemini: <span class="text-primary">{{ zodiac_message.gemini }}</span></div>
+            <div class="news-item">♋ Cancer: <span class="text-primary">{{ zodiac_message.cancer }}</span></div>
+            <div class="news-item">♌ Leo: <span class="text-primary">{{ zodiac_message.leo }}</span></div>
+            <div class="news-item">♍ Virgo: <span class="text-primary">{{ zodiac_message.virgo }}</span></div>
+            <div class="news-item">♎ Libra: <span class="text-primary">{{ zodiac_message.libra }}</span></div>
+            <div class="news-item">♏ Scorpio: <span class="text-primary">{{ zodiac_message.scorpio }}</span></div>
+            <div class="news-item">♐ Sagittarius: <span class="text-primary">{{ zodiac_message.sagittarius }}</span></div>
+            <div class="news-item">♑ Capricorn: <span class="text-primary">{{ zodiac_message.capricorn }}</span></div>
+            <div class="news-item">♒ Aquarius: <span class="text-primary">{{ zodiac_message.aquarius }}</span></div>
+            <div class="news-item">♓ Pisces: <span class="text-primary">{{ zodiac_message.pisces }}</span></div>
           {% else %}
             <div class="news-item">No zodiac messages available for today.</div>
           {% endif %}
@@ -194,7 +166,7 @@
       
         <!-- Categories grid -->
         <div class="row row-cols-lg-6 row-cols-sm-3 row-cols-2 g-3 g-xl-4">
-          {% for category in categories|slice:":5" %}
+          {% for category in categories %}
           <div class="col">
             <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
                data-category-slug="{{ category.slug }}" href="#">
@@ -207,14 +179,14 @@
           {% endfor %}
       
           <!-- "More" card -->
-          <div class="col">
+          <!-- <div class="col">
             <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center" href="#">
               <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
                 <img src="{% static 'images/more.png' %}" alt="More">
               </div>
               <h3 class="icon-box-title fs-base mb-0">More</h3>
             </a>
-          </div>
+          </div> -->
         </div>
       </section>
       
