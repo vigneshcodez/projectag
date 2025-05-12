@@ -208,9 +208,15 @@
                   {{ average_rating }} ({{ total_reviews }} reviews)
               </h3>
               <div class="d-flex flex-sm-row flex-column align-items-sm-center align-items-stretch justify-content-between">
+                {% if request.user.is_authenticated %}
                   <a class="btn btn-outline-primary mb-sm-0 mb-3" href="#" data-bs-toggle="modal" data-bs-target="#modal-review">
                       <i class="fi-edit me-1"></i>Add review
                   </a>
+                {% else %}
+                <a class="btn btn-outline-primary mb-sm-0 mb-3"  aria-disabled="true" data-bs-target="#modal-review">
+                      <i class="fi-edit me-1"></i>login to Add review
+                  </a>
+                {% endif %}
               </div>
           </div>
       
@@ -366,7 +372,7 @@
             <div class="position-relative mb-2"><img class="rounded-3" src="{% static 'orgin/img/real-estate/single/map.jpg' %}" alt="Map">
               <div class="d-flex w-100 h-100 align-items-center justify-content-center position-absolute top-0 start-0"><a class="btn btn-primary stretched-link" href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.6145424811048!2d-73.93999278406218!3d40.74850644331743!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2592979d4827f%3A0x3a5d8b3cf779f3b6!2s28%20Jackson%20Ave%2C%20Long%20Island%20City%2C%20NY%2011101%2C%20USA!5e0!3m2!1sen!2sua!4v1618074552281!5m2!1sen!2sua" data-iframe="true" data-bs-toggle="lightbox"><i class="fi-route me-2"></i>Get directions</a></div>
             </div>
-            <p class="mb-0 fs-sm text-center">28 Jackson Ave Long Island City, NY 67234</p>
+            <p class="mb-0 fs-sm text-center">{{business.address}}</p>
           </div>
           <!-- Contact card-->
           <div class="card shadow-sm mb-4 mt-4">
@@ -419,68 +425,7 @@
       });
       </script>
       
-     <!-- Related Business-->
-     <section class="container pb-5 mb-lg-4">
-       <div class="d-flex align-items-center justify-content-between mb-4 pb-2">
-         <h2 class="h3 mb-0">Related Business</h2><a class="btn btn-link fw-normal ms-sm-3 p-0" href="#">View all<i class="fi-arrow-long-right ms-2"></i></a>
-       </div>
-       <div class="tns-carousel-wrapper tns-controls-outside-xxl tns-nav-outside mb-xxl-2">
-         <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 3, &quot;gutter&quot;: 24, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1,&quot;nav&quot;:true},&quot;500&quot;:{&quot;items&quot;:2},&quot;850&quot;:{&quot;items&quot;:3},&quot;1400&quot;:{&quot;items&quot;:3,&quot;nav&quot;:false}}}">
-           <!-- Item-->
-           <div>
-             <div class="position-relative">
-               <div class="position-relative mb-3">
-                 <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Wishlist"><i class="fi-heart"></i></button><img class="rounded-3" src="{% static 'orgin/img/city-guide/catalog/04.jpg' %}" alt="Article img">
-               </div>
-               <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="#">related business name</a></h3>
-               <ul class="list-inline mb-0 fs-xs">
-                 <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.5</b><span class="text-muted">&nbsp;(13)</span></li>
-                 <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>business category</li>
-               </ul>
-             </div>
-           </div>
-           <!-- Item-->
-           <div>
-             <div class="position-relative">
-               <div class="position-relative mb-3">
-                 <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Wishlist"><i class="fi-heart"></i></button><img class="rounded-3" src="{% static 'orgin/img/city-guide/catalog/04.jpg' %}" alt="Article img">
-               </div>
-               <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="#">related business name</a></h3>
-               <ul class="list-inline mb-0 fs-xs">
-                 <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.5</b><span class="text-muted">&nbsp;(13)</span></li>
-                 <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>business category</li>
-               </ul>
-             </div>
-           </div>
-           <!-- Item-->
-           <div>
-             <div class="position-relative">
-               <div class="position-relative mb-3">
-                 <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Wishlist"><i class="fi-heart"></i></button><img class="rounded-3" src="{% static 'orgin/img/city-guide/catalog/04.jpg' %}" alt="Article img">
-               </div>
-               <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="#">related business name</a></h3>
-               <ul class="list-inline mb-0 fs-xs">
-                 <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.5</b><span class="text-muted">&nbsp;(13)</span></li>
-                 <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>business category</li>
-               </ul>
-             </div>
-           </div>
-           <!-- Item-->
-           <div>
-             <div class="position-relative">
-               <div class="position-relative mb-3">
-                 <button class="btn btn-icon btn-light-primary btn-xs text-primary rounded-circle position-absolute top-0 end-0 m-3 zindex-5" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Wishlist"><i class="fi-heart"></i></button><img class="rounded-3" src="{% static 'orgin/img/city-guide/catalog/04.jpg' %}" alt="Article img">
-               </div>
-               <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="#">related business name</a></h3>
-               <ul class="list-inline mb-0 fs-xs">
-                 <li class="list-inline-item pe-1"><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.5</b><span class="text-muted">&nbsp;(13)</span></li>
-                 <li class="list-inline-item pe-1"><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>business category</li>
-               </ul>
-             </div>
-           </div>
-         </div>
-       </div>
-     </section>
+
    </main>
 
     <!-- Footer-->

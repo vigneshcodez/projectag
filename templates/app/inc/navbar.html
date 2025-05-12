@@ -28,7 +28,7 @@
 
 <!-- Navbar-->
 <header class="navbar navbar-expand-lg navbar-light fixed-top" data-scroll-header>
-  <div class="container"><a class="navbar-brand me-3 me-xl-4" href="city-guide-home-v1.html"><img class="d-block" src="img/logo/logo-dark.svg" width="116" alt="Finder"></a>
+  <div class="container"><a class="navbar-brand me-3 me-xl-4" href="{% url 'index' %}"><img class="d-block" src="{% static 'images/agarlogo.png' %}" width="116" alt="Finder"></a>
     <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,6 +38,8 @@
     <a class="btn btn-sm text-primary d-none d-lg-block order-lg-3" href="{% url 'login' %}" ><i class="fi-user me-2"></i>Login</a>
     <a class="btn btn-primary btn-sm rounded-pill ms-2 order-lg-3" href="{% url 'register' %}"><i class="fi-plus me-2"></i>Add<span class='d-none d-sm-inline'> business</span></a>
     {% endif %}
+    <a class="btn  btn-sm rounded-pill ms-2 order-lg-3" href="https://chat.whatsapp.com/FwN0eLoJWRJGNx87AGxwzN" style="background-color: green;color: white;"><i class="fab fa-whatsapp me-2"></i>Join<span class='d-none d-sm-inline'> whatsapp</span></a>
+    <a class="btn  btn-sm rounded-pill ms-2 order-lg-3" href="https://chat.whatsapp.com/FwN0eLoJWRJGNx87AGxwzN" style="background-color: green;color: white;position: fixed;right: 30px;bottom: 30px;"><i class="fab fa-whatsapp" style="font-size: 30px;"></i></a>
     <div class="collapse navbar-collapse order-lg-2" id="navbarNav">
       <ul class="navbar-nav navbar-nav-scroll" style="max-height: 35rem;">
 
@@ -56,13 +58,12 @@
         </li> -->
 
 
-        <li class="nav-item d-lg-none"><a class="nav-link" href="#signin-modal" data-bs-toggle="modal"><i class="fi-user me-2"></i>Sign in</a></li>
       </ul>
     </div>
   </div>
 </header>
 
-<form  class="form-group d-block d-md-flex position-relative rounded-md-pill mx-auto" style="width: 80%;height: 50px;margin-top: 75px;" id="search-form">
+<form  class="form-group d-block d-md-flex position-relative rounded-md-pill mx-auto" style="width: 80%;height: 50px;margin-top: 130px;" id="search-form">
   <div class="input-group input-group-lg border-end-md">
     <span class="input-group-text text-muted rounded-pill ps-3"><i class="fi-search"></i></span>
     <input id="search-input" class="form-control" type="text" placeholder="What are you looking for?" autocomplete="off">
