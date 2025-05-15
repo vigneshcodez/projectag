@@ -165,10 +165,6 @@ def password_reset_verify_view(request):
         try:
             user = User.objects.get(email=email)  # Get user by email
             reset_token = PasswordResetToken.objects.get(user=user, token=token)
-            
-            # print("Token creation time:", reset_token.created_at)
-            # print("Current time:", now())
-            # print("Token expiration status:", reset_token.is_expired())
 
             if reset_token.is_expired():
                 messages.error(request, 'The reset code has expired. Please try again.')
@@ -192,9 +188,6 @@ def password_reset_form_view(request, user_id):
         password = request.POST.get('password')  # New password
         confirm_password = request.POST.get('confirm_password')  # Confirmation password
 
-        # print("Received password:", password)
-        # print("Confirm password:", confirm_password)
-
         if password != confirm_password:  # Check if passwords match
             messages.error(request, 'Passwords do not match.')
             return redirect('password_reset_form', user_id=user.id)
@@ -202,9 +195,7 @@ def password_reset_form_view(request, user_id):
         try:
             user.set_password(password)  # Properly hash and save the new password
             user.save()
-            # print("Password reset successfully for user:", user.username)
         except Exception as e:
-            # print("Error while resetting password:", e)
             messages.error(request, "An error occurred while resetting your password.")
             return redirect('password_reset_form', user_id=user.id)
 

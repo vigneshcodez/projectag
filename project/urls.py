@@ -18,11 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path('dashboard/',include('dashboard.urls')),
+    path('business-reviews-add/<int:business_id>/', views.add_review, name='add_review'),
     path('',include('app.urls')),
 
 ] 

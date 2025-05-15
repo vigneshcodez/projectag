@@ -107,7 +107,12 @@
            <div class="card py-2 px-sm-4 px-3 shadow-sm">
              <div class="card-body mx-n2">
                <!-- Place info-->
-               <div class="d-flex align-items-start mb-3 pb-3 border-bottom"><img src="{{business.business_logo.url}}" width="60" alt="Thumbnail">
+               <div class="d-flex align-items-start mb-3 pb-3 border-bottom">
+                 {% if business.business_logo %}
+                <img src="{{business.business_logo.url}}" width="60" alt="Thumbnail">
+                {% else %}
+                <img src="#" width="60" alt="Thumbnail">
+                {% endif %}
                  <div class="ps-2 ms-1">
                    <h3 class="h5 mb-2"> {{business.business_name}}</h3>
                    <ul class="list-unstyled d-flex flex-wrap fs-sm">

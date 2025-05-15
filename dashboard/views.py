@@ -8,16 +8,12 @@ from app.models import Business,Enquiry
 
 def index(request):
     business = Business.objects.filter(user=request.user)
-    print(type(business))
     response_data = {
         'total_business':business.count(),
         'total_views':0
     }
     for i  in business:
-        print(i)
         response_data['total_views'] += i.views_count
-
-    print(response_data)
     return render(request,'dashboard/pages/index.html')
 
 
@@ -74,7 +70,6 @@ def delete_enquiry(request, id):
 def business_create(request):
     if request.method == "POST":
         form = BusinessForm(request.POST, request.FILES)
-        # print(form)
         if form.is_valid():
             business = form.save(commit=False)  # Don't save yet
             business.user = request.user  # Assign logged-in user

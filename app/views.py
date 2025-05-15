@@ -269,6 +269,7 @@ Adding review
 @require_POST
 def add_review(request, business_id):
     business = get_object_or_404(Business, id=business_id)
+
     form = ReviewForm(request.POST)
     if form.is_valid():
         review = form.save(commit=False)
