@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Location, Business, Enquiry, Leads, Review,Advertisement,ZodiacDailyMessage,News
+from .models import Category, Location, Business, Enquiry, Leads, Review,Advertisement,ZodiacDailyMessage,News,IyerProfile,PoojaService,PoojaBooking
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -70,3 +70,6 @@ admin.site.register(Review, ReviewAdmin)
 admin.site.register(Advertisement)
 admin.site.register(ZodiacDailyMessage)
 admin.site.register(News)
+admin.site.register(IyerProfile)
+admin.site.register(PoojaService)
+admin.site.register(PoojaBooking)

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from . models import Category,Business,Review,Advertisement,Location,ZodiacDailyMessage , News
+from . models import Category,Business,Review,Advertisement,Location,ZodiacDailyMessage , News,IyerProfile
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .forms import ReviewForm  # you will create a simple form
@@ -8,7 +8,7 @@ from django.db.models import Avg
 from django.views.decorators.http import require_POST
 from datetime import date
 
-
+    
 '''
 For home page
 '''
@@ -65,78 +65,6 @@ def business_detail(request,slug):
         'average_rating': round(average_rating,1),
     })
 
-'''
-for nesting categories
-'''
-# def category_detail(request, **kwargs):
-#     location = kwargs.get('location')
-#     slug = kwargs.get('slug')
-#     parent_slug = kwargs.get('parent_slug')
-#     grandparent_slug = kwargs.get('grandparent_slug')
-#     all_locations = Location.objects.all()
-#     location_id = get_object_or_404(Location, slug=location)
-
-#     # Determine category
-#     if grandparent_slug:
-#         category = Category.objects.filter(
-#             slug=slug,
-#             parent__slug=parent_slug,
-#             parent__parent__slug=grandparent_slug
-#         ).first()
-#         catitle = grandparent_slug
-#     elif parent_slug:
-#         category = Category.objects.filter(
-#             slug=slug,
-#             parent__slug=parent_slug
-#         ).first()
-#         catitle = parent_slug
-#     else:
-#         category = Category.objects.filter(
-#             slug=slug,
-#             parent=None
-#         ).first()
-#         catitle = slug
-
-#     subcategories = category.get_subcategories()
-
-#     if not subcategories:
-#         businesses = Business.objects.filter(
-#             business_type=category,
-#             business_district=location_id
-#         )
-
-#         # Filtering logic
-#         filter_type = request.GET.get('filter')
-
-#         if filter_type == "premium":
-#             businesses = businesses.filter(premium=True)
-#         elif filter_type == "verified":
-#             businesses = businesses.filter(verified=True)
-#         elif filter_type == "trusted":
-#             businesses = businesses.filter(trusted=True)
-#         elif filter_type == "most_viewed":
-#             businesses = businesses.order_by('-views_count')
-#         elif filter_type == "top_ranked":
-#             businesses = businesses.filter(is_top_in_category=True).order_by('top_rank')
-
-#         paginator = Paginator(businesses, 10)
-#         page_number = request.GET.get('page')
-#         page_obj = paginator.get_page(page_number)
-
-#         return render(request, 'app/pages/business_list.html', {
-#             'page_obj': page_obj,
-#             'catitle': catitle,
-#             'all_locations': all_locations,
-#             'filter_type': filter_type
-#         })
-
-#     else:
-#         return render(request, 'app/pages/categories.html', {
-#             'category': category,
-#             'subcategories': subcategories,
-#             'catitle': catitle,
-#             'location': location
-#         })
 
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -318,3 +246,106 @@ def submit_enquiry(request):
             enquired_person=request.user
         )
         return JsonResponse({'status': 'success'})
+    
+def iyer_list(request):
+    profiles = IyerProfile.objects.all().order_by('-id')
+    paginator = Paginator(profiles, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'app/pages/iyer_list.html',{
+            'page_obj': page_obj,
+            'catitle': 'iyers booking',
+        })
+
+def iyer_detail(request, id):
+    profile = IyerProfile.objects.get(pk=id)
+    bookings = PoojaBooking.objects.filter(user=request.user, iyer=profile)
+    user_bookings = {booking.pooja.id: booking for booking in bookings}
+
+    return render(request, 'app/pages/iyer_detail.html', {
+        'profile': profile,
+        'user_bookings': user_bookings,
+    })
+
+
+# views.py
+from .models import IyerProfile, PoojaService, PoojaBooking
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+
+@login_required
+def book_pooja(request, iyer_id, pooja_id):
+    if request.method == 'POST':
+        pooja_date = request.POST.get('pooja_date')
+        iyer = get_object_or_404(IyerProfile, pk=iyer_id)
+        pooja = get_object_or_404(PoojaService, pk=pooja_id)
+
+        existing_booking = PoojaBooking.objects.filter(user=request.user, iyer=iyer, pooja=pooja).last()
+        if existing_booking:
+            messages.error(request, "You have already booked this pooja.")
+            return redirect('iyer_detail', id=iyer.id)
+
+        PoojaBooking.objects.create(
+            user=request.user,
+            iyer=iyer,
+            pooja=pooja,
+            pooja_date=pooja_date,
+            status='pending'
+        )
+        profile = IyerProfile.objects.get(pk=iyer.id)
+        bookings = PoojaBooking.objects.filter(user=request.user, iyer=profile)
+        user_bookings = {booking.pooja.id: booking for booking in bookings}
+        print(user_bookings)
+        return render(request, 'app/pages/iyer_detail.html', {
+            'profile': profile,
+            'user_bookings': user_bookings,
+        })
+
+
+@login_required
+def iyer_bookings(request):
+    iyer = request.user.iyerprofile
+    bookings = PoojaBooking.objects.filter(iyer=iyer, status='pending')
+    return render(request, 'app/pages/iyer_bookings.html', {'bookings': bookings})
+
+@login_required
+def confirm_booking(request, booking_id):
+    booking = get_object_or_404(PoojaBooking, pk=booking_id, iyer=request.user.iyerprofile)
+    booking.status = 'confirmed'
+    booking.save()
+    messages.success(request, "Booking confirmed. User can now pay.")
+    return redirect('iyer_bookings')
+
+
+import razorpay
+from django.conf import settings
+
+@login_required
+def start_payment(request, booking_id):
+    booking = get_object_or_404(PoojaBooking, pk=booking_id, user=request.user, status='confirmed')
+    client = razorpay.Client(auth=('rzp_test_lrSbqEXKLDzZCp', 'osxl3AkRenY743r7pS9hqQm1'))
+
+    amount = int(booking.pooja.price * 100)  # in paisa
+
+    payment = client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": "1"
+    })
+
+    return render(request, 'app/pages/payment_page.html', {
+        'booking': booking,
+        'order_id': payment['id'],
+        'razorpay_key_id': 'rzp_test_lrSbqEXKLDzZCp',
+        'amount': amount
+    })
+
+@login_required
+def payment_success(request, booking_id):
+    booking = get_object_or_404(PoojaBooking, pk=booking_id, user=request.user)
+    booking.status = 'paid'
+    booking.save()
+    messages.success(request, "Payment successful! Your Pooja is booked.")
+    return redirect('iyer_detail', id=booking.iyer.id)
+

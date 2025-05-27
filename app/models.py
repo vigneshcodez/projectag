@@ -258,3 +258,46 @@ class ZodiacDailyMessage(models.Model):
 
     def __str__(self):
         return f"Zodiac Messages - {self.date}"
+    
+
+
+
+class PoojaService(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    duration_minutes = models.PositiveIntegerField()
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+
+
+class IyerProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True)
+    experience_years = models.PositiveIntegerField()
+    poojas = models.ManyToManyField(PoojaService, related_name='iyers')  # Many-to-Many field
+    profile_image = models.ImageField(upload_to='iyers/', blank=True, null=True)
+    is_available = models.BooleanField(default=True)         
+
+    def __str__(self):
+        return self.user.get_full_name()
+    
+# Booking Model
+from django.db import models
+from django.conf import settings
+
+# models.py
+class PoojaBooking(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    iyer = models.ForeignKey(IyerProfile, on_delete=models.CASCADE)
+    pooja = models.ForeignKey(PoojaService, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('paid', 'Paid')], default='pending')
+    pooja_date = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.pooja.name} - {self.status}"
+
+

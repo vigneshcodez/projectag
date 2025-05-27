@@ -1,20 +1,29 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator
 from .forms import BusinessForm,BusinessFormForAdmin
-from app.models import Business,Enquiry
+from app.models import Business,Enquiry,IyerProfile
+from app.forms import IyerProfileForm
+
 
 # Create your views here.
 
 
 def index(request):
     business = Business.objects.filter(user=request.user)
+    iyer_profile = IyerProfile.objects.all() # Safe get
+    print(request.user.id)
+    if iyer_profile is None:
+        print("No IyerProfile found for user:", request.user)
+    else:
+        print("IyerProfile found:", iyer_profile)
+    print(iyer_profile)
     response_data = {
         'total_business':business.count(),
         'total_views':0
     }
     for i  in business:
         response_data['total_views'] += i.views_count
-    return render(request,'dashboard/pages/index.html')
+    return render(request,'dashboard/pages/index.html',{'iyer_profile':iyer_profile})
 
 
 def delete_business(request, id):
@@ -98,4 +107,35 @@ def business_edit(request, id):
         else:
             form = BusinessForm(instance=business)
     return render(request, 'dashboard/pages/edit_business.html', {'form': form})
+
+
+@login_required
+def create_iyer_profile(request):
+    if IyerProfile.objects.filter(user=request.user).exists():
+        return redirect('update_iyer_profile')  # prevent duplicates
+
+    if request.method == 'POST':
+        form = IyerProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            iyer_profile = form.save(commit=False)
+            iyer_profile.user = request.user
+            iyer_profile.save()
+            form.save_m2m()
+            return redirect('dashboard_index')  # replace with your view name
+    else:
+        form = IyerProfileForm()
+    return render(request, 'dashboard/pages/iyercreate.html', {'form': form})
+
+
+@login_required
+def update_iyer_profile(request):
+    iyer_profile = get_object_or_404(IyerProfile, user=request.user)
+    if request.method == 'POST':
+        form = IyerProfileForm(request.POST, request.FILES, instance=iyer_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard_index')  # replace with your view name
+    else:
+        form = IyerProfileForm(instance=iyer_profile)
+    return render(request, 'dashboard/pages/iyerupdate.html', {'form': form})
 

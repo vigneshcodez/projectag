@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pay ₹1 with Razorpay</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <h2>Pay ₹1</h2>
+  <button id="pay-btn">Pay Now</button>
+
+  <script>
+    document.getElementById('pay-btn').onclick = function () {
+      var options = {
+        key: "rzp_test_lrSbqEXKLDzZCp", // Your Razorpay Key ID (public)
+        amount: 100, // Amount is in paise = 1 INR
+        currency: "INR",
+        name: "Test Store",
+        description: "Test Transaction of ₹1",
+        image: "https://your-logo-url.com/logo.png", // Optional
+        handler: function (response) {
+          alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+        },
+        prefill: {
+          name: "John Doe",
+          email: "john@example.com",
+          contact: "9999999999"
+        },
+        notes: {
+          address: "Test address"
+        },
+        theme: {
+          color: "#3399cc"
+        }
+      };
+
+      var rzp = new Razorpay(options);
+      rzp.open();
+    };
+  </script>
+</body>
+</html>

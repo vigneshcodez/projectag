@@ -1,0 +1,23 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<button id="rzp-button">Pay ₹{{ amount|floatformat:2 }}</button>
+
+<script>
+    var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "Iyer Booking",
+        "description": "{{ booking.pooja.name }}",
+        "order_id": "{{ order_id }}",
+        "handler": function (response){
+            // redirect or AJAX to confirm
+            window.location.href = "/payment-success/{{ booking.id }}/";
+        },
+    };
+    var rzp = new Razorpay(options);
+    document.getElementById('rzp-button').onclick = function(e){
+        rzp.open();
+        e.preventDefault();
+    }
+</script>

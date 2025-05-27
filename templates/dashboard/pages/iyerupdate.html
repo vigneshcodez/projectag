@@ -1,0 +1,13 @@
+{% extends 'dashboard/base/base.html' %}
+{% block title %} <title>Business List</title> {% endblock %}
+
+{% block content %}
+<h2>Update Iyer Profile</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+</form>
+
+
+{% endblock %}

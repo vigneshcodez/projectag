@@ -165,6 +165,15 @@
       
         <!-- Categories grid -->
         <div class="row row-cols-lg-6 row-cols-sm-3 row-cols-2 g-3 g-xl-4">
+          <div class="col">
+            <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
+                href="{% url 'iyer_list' %}">
+              <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
+                <img src="{{ category.image.url }}" alt="{{ category.name }}">
+              </div>
+              <h3 class="icon-box-title fs-base mb-0">Iyer Bookings</h3>
+            </a>
+          </div>
           {% for category in categories %}
           <div class="col">
             <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"

@@ -1,0 +1,12 @@
+{% extends 'dashboard/base/base.html' %}
+{% block title %} <title>Iyer create</title> {% endblock %}
+{% block content %}
+
+<h2>Create Iyer Profile</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create</button>
+</form>
+
+{% endblock %}

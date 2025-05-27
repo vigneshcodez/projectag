@@ -22,6 +22,11 @@
    
             <a href="{% url 'user_business_list' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 All Business Profiles</a>
             <a href="{% url 'user_business_enquires' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Enquires</a>
+            {% if request.user.iyerprofile|default_if_none:'' %}
+            <a href="{% url 'update_iyer_profile' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Update iyer profile</a>
+            {% else %}
+            <a href="{% url 'create_iyer_profile' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 create Iyer Profile</a>
+            {% endif %}
         </nav>
     </aside>
 

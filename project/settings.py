@@ -162,3 +162,7 @@ EMAIL_TIMEOUT = 30
 AUTH_USER_MODEL = 'accounts.CustomUser'  # Replace 'users' with your app name
 
 
+RAZORPAY_KEY_ID = 'rzp_test_lrSbqEXKLDzZCp'
+RAZORPAY_KEY_SECRET = 'osxl3AkRenY743r7pS9hqQm1'
+
+

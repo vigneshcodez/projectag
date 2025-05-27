@@ -6,6 +6,13 @@ urlpatterns = [
     path('about/',views.about,name='about'),
     path('contact/',views.contact,name='contact'),
     path('business-detail/<slug:slug>/',views.business_detail,name='business_detail'),
+    path('iyer-list/',views.iyer_list,name='iyer_list'),
+    path('iyer_detail/<int:id>',views.iyer_detail,name='iyer_detail'),
+    path('book-pooja/<int:iyer_id>/<int:pooja_id>/', views.book_pooja, name='book_pooja'),
+    path('iyer-bookings/', views.iyer_bookings, name='iyer_bookings'),
+    path('confirm-booking/<int:booking_id>/', views.confirm_booking, name='confirm_booking'),
+    path('start-payment/<int:booking_id>/', views.start_payment, name='start_payment'),
+    path('payment-success/<int:booking_id>/', views.payment_success, name='payment_success'),
 
 
     path('business/<int:business_id>/reviews/', views.business_reviews, name='business_reviews'),
