@@ -169,7 +169,7 @@
             <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center"
                 href="{% url 'iyer_list' %}">
               <div class="icon-box-media bg-faded-accent text-primary rounded-circle mb-3 mx-auto">
-                <img src="{{ category.image.url }}" alt="{{ category.name }}">
+                <img src="{% static 'images/iyer.jpg' %}" alt="{{ category.name }}">
               </div>
               <h3 class="icon-box-title fs-base mb-0">Iyer Bookings</h3>
             </a>

@@ -259,7 +259,7 @@ def iyer_list(request):
 
 def iyer_detail(request, id):
     profile = IyerProfile.objects.get(pk=id)
-    bookings = PoojaBooking.objects.filter(user=request.user, iyer=profile)
+    bookings = PoojaBooking.objects.filter(user=request.user.id, iyer=profile)
     user_bookings = {booking.pooja.id: booking for booking in bookings}
 
     return render(request, 'app/pages/iyer_detail.html', {
@@ -315,7 +315,7 @@ def confirm_booking(request, booking_id):
     booking.status = 'confirmed'
     booking.save()
     messages.success(request, "Booking confirmed. User can now pay.")
-    return redirect('iyer_bookings')
+    return redirect('index')
 
 
 import razorpay
@@ -327,25 +327,60 @@ def start_payment(request, booking_id):
     client = razorpay.Client(auth=('rzp_test_lrSbqEXKLDzZCp', 'osxl3AkRenY743r7pS9hqQm1'))
 
     amount = int(booking.pooja.price * 100)  # in paisa
+    price = booking.pooja.price
 
     payment = client.order.create({
         "amount": amount,
+     
         "currency": "INR",
         "payment_capture": "1"
     })
 
     return render(request, 'app/pages/payment_page.html', {
         'booking': booking,
+           "price":price,
         'order_id': payment['id'],
         'razorpay_key_id': 'rzp_test_lrSbqEXKLDzZCp',
         'amount': amount
     })
 
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import razorpay
+import json
+
+@csrf_exempt
 @login_required
-def payment_success(request, booking_id):
-    booking = get_object_or_404(PoojaBooking, pk=booking_id, user=request.user)
-    booking.status = 'paid'
-    booking.save()
-    messages.success(request, "Payment successful! Your Pooja is booked.")
-    return redirect('iyer_detail', id=booking.iyer.id)
+def payment_success(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+
+        payment_id = data.get("razorpay_payment_id")
+        order_id = data.get("razorpay_order_id")
+        signature = data.get("razorpay_signature")
+        booking_id = data.get("booking_id")
+
+        client = razorpay.Client(auth=("rzp_test_lrSbqEXKLDzZCp", "osxl3AkRenY743r7pS9hqQm1"))
+
+        try:
+            # Verify the payment signature
+            client.utility.verify_payment_signature({
+                "razorpay_order_id": order_id,
+                "razorpay_payment_id": payment_id,
+                "razorpay_signature": signature
+            })
+
+            # Update booking
+            booking = PoojaBooking.objects.get(id=booking_id, user=request.user)
+            booking.status = "paid"
+            booking.razorpay_payment_id = payment_id
+            booking.save()
+
+            return JsonResponse({"status": "success"})
+
+        except razorpay.errors.SignatureVerificationError:
+            return JsonResponse({"status": "failure", "message": "Invalid signature"}, status=400)
+
+    return JsonResponse({"status": "failure", "message": "Invalid request"}, status=400)
+
 

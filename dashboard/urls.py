@@ -10,5 +10,7 @@ urlpatterns = [
     path('enquiry/delete/<int:id>/', views.delete_enquiry, name='delete_enquiry'),
     path('iyer/create/', views.create_iyer_profile, name='create_iyer_profile'),
     path('iyer/update/', views.update_iyer_profile, name='update_iyer_profile'),
+    path('iyer/orders/', views.orders, name='orders_page'),
+    path('iyer/bookings/', views.bookings, name='bookings_page'),
 
 ]

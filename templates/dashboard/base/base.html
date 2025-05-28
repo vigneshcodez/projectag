@@ -15,18 +15,21 @@
     
     <!-- Sidebar -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 {% if request.user.is_superuser %} bg-[#fe610c] {% else %} bg-[#3a4d8a] {% endif %} text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out z-50">
-        <div class="px-6 py-5 text-center text-xl font-bold border-b border-orange-400">Vellore ads</div>
+        <div class="px-6 py-5 text-center text-xl font-bold border-b border-orange-400">Aggraharam</div>
         <nav class="mt-4 space-y-1">
     
             <a href="{% url 'dashboard_index' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">🏠 Dashboard</a>
    
             <a href="{% url 'user_business_list' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 All Business Profiles</a>
             <a href="{% url 'user_business_enquires' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Enquires</a>
+
             {% if request.user.iyerprofile|default_if_none:'' %}
             <a href="{% url 'update_iyer_profile' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Update iyer profile</a>
             {% else %}
             <a href="{% url 'create_iyer_profile' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 create Iyer Profile</a>
             {% endif %}
+            <a href="{% url 'orders_page' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Your Orders</a>
+            <a href="{% url 'bookings_page' %}" class="block px-6 py-3 text-lg font-medium hover:bg-[#e69062] transition duration-200">📂 Your Bookings</a>
         </nav>
     </aside>
 

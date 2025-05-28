@@ -2,11 +2,11 @@
 {% block title %} <title>Iyer create</title> {% endblock %}
 {% block content %}
 
-<h2>Create Iyer Profile</h2>
-<form method="POST" enctype="multipart/form-data">
+<h2 class="text-3xl">Create Iyer Profile</h2>
+<form method="POST" enctype="multipart/form-data" class="mt-5">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Create</button>
+    <button type="submit" class="bg-primary px-5 py-2 text-white rounded mt-5">Create</button>
 </form>
 
 {% endblock %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator
 from .forms import BusinessForm,BusinessFormForAdmin
-from app.models import Business,Enquiry,IyerProfile
+from app.models import Business,Enquiry,IyerProfile,PoojaBooking
 from app.forms import IyerProfileForm
 
 
@@ -139,3 +139,12 @@ def update_iyer_profile(request):
         form = IyerProfileForm(instance=iyer_profile)
     return render(request, 'dashboard/pages/iyerupdate.html', {'form': form})
 
+def orders(request):
+    iyer_profile = request.user.iyerprofile  # assuming OneToOneField from User to IyerProfile
+    orders = PoojaBooking.objects.filter(iyer=iyer_profile).select_related('user', 'pooja')
+    return render(request, 'dashboard/pages/orders.html', {'orders': orders})
+
+def bookings(request):
+
+    bookings = PoojaBooking.objects.filter(user_id=request.user.id)
+    return render(request, 'dashboard/pages/bookings.html', {'bookings': bookings})

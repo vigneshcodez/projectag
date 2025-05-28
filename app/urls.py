@@ -12,7 +12,8 @@ urlpatterns = [
     path('iyer-bookings/', views.iyer_bookings, name='iyer_bookings'),
     path('confirm-booking/<int:booking_id>/', views.confirm_booking, name='confirm_booking'),
     path('start-payment/<int:booking_id>/', views.start_payment, name='start_payment'),
-    path('payment-success/<int:booking_id>/', views.payment_success, name='payment_success'),
+    path('payment-success/', views.payment_success, name='payment_success'),
+
 
 
     path('business/<int:business_id>/reviews/', views.business_reviews, name='business_reviews'),

@@ -291,10 +291,15 @@ from django.conf import settings
 # models.py
 class PoojaBooking(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    iyer = models.ForeignKey(IyerProfile, on_delete=models.CASCADE)
-    pooja = models.ForeignKey(PoojaService, on_delete=models.CASCADE)
-    status = models.CharField(max_length=20, choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('paid', 'Paid')], default='pending')
+    iyer = models.ForeignKey('IyerProfile', on_delete=models.CASCADE)
+    pooja = models.ForeignKey('PoojaService', on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=20,
+        choices=[('pending', 'Pending'), ('confirmed', 'Confirmed'), ('paid', 'Paid')],
+        default='pending'
+    )
     pooja_date = models.DateField(null=True, blank=True)
+    razorpay_payment_id = models.CharField(max_length=100, blank=True, null=True)  # ✅ new field
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
