@@ -306,3 +306,27 @@ class PoojaBooking(models.Model):
         return f"{self.user} - {self.pooja.name} - {self.status}"
 
 
+class BusinessBlog(models.Model):
+    name = models.CharField(max_length=255)
+    banner_image = models.ImageField(upload_to='business_blog_images/', null=False, blank=False, verbose_name="Banner Image")
+    content = HTMLField()
+    business_type = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Business Category",null=True,blank=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+
+    def __str__(self):
+        return self.name
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.name)
+            unique_slug = base_slug
+            counter = 1
+            while BusinessBlog.objects.filter(slug=unique_slug).exists():
+                unique_slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = unique_slug
+        super().save(*args, **kwargs)
+
+    

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from . models import Category,Business,Review,Advertisement,Location,ZodiacDailyMessage , News,IyerProfile
+from . models import Category,Business,Review,Advertisement,Location,ZodiacDailyMessage , News,IyerProfile,BusinessBlog
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from .forms import ReviewForm  # you will create a simple form
@@ -17,6 +17,8 @@ def index(request):
     advertisement = Advertisement.objects.all()
     location = Location.objects.all()
     news = News.objects.all()
+    businessblog = BusinessBlog.objects.all()
+    trending = Business.objects.all().order_by('-views_count')[:15]
 
     # Get today's message or latest available if today doesn't exist
     try:
@@ -32,7 +34,9 @@ def index(request):
             'advertisement': advertisement,
             'location': location,
             'zodiac_message': zodiac_message,
-            'news':news
+            'news':news,
+            'businessblog':businessblog,
+            'trending':trending
         }
     )
 
@@ -108,7 +112,8 @@ def category_detail(request, **kwargs):
     if not subcategories:
         businesses = Business.objects.filter(
             business_type=category,
-            business_district=location_id
+            business_district=location_id,
+            active =True
         )
 
         # Annotate with average rating from related reviews
@@ -384,3 +389,6 @@ def payment_success(request):
     return JsonResponse({"status": "failure", "message": "Invalid request"}, status=400)
 
 
+def business_blog(request,slug):
+    blog = BusinessBlog.objects.get(slug=slug)
+    return render(request,'app/pages/business_blog.html',{'blog':blog})

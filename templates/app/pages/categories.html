@@ -42,7 +42,7 @@
                 <div class="col">
                   <a class="icon-box card card-body h-100 border-0 shadow-sm card-hover text-center" href="{% url 'subcategory_detail' location  item.parent.slug  item.slug %}">
                       <!-- <img src="{{item.image.url}}" alt=""> -->
-                       <div style="height: 150px;background-position: center;background-size: contain;background-repeat: no-repeat;background-image: url({{item.image.url}});"></div>
+                       <div style="height: 50px;background-position: center;background-size: contain;background-repeat: no-repeat;background-image: url({{item.parent.image.url}});"></div>
                   
                     <h3 class="icon-box-title fs-base mb-0 mt-2">{{item.name}}</h3>
                   </a>

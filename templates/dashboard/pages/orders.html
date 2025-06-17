@@ -15,6 +15,8 @@
                 <tr>
                     <th class="px-6 py-3">Pooja name</th>
                     <th class="px-6 py-3">Pooja date</th>
+                    <th class="px-6 py-3">customer name</th>
+                    <th class="px-6 py-3">customer mobile</th>
                     <th class="px-6 py-3">status</th>
              
                 </tr>
@@ -26,6 +28,8 @@
                         {{item.pooja}}
                     </td>
                     <td class="px-6 py-4">{{ item.pooja_date }}</td>
+                    <td class="px-6 py-4">{{ item.user.first_name }}</td>
+                    <td class="px-6 py-4">{{ item.user.mobile }}</td>
                     <td class="px-6 py-4">{{ item.status }}</td>
                 </tr>
                 {% endfor %}

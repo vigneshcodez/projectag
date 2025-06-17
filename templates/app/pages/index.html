@@ -249,82 +249,48 @@
         </div>
       </section>
       <!-- Banner + Where to eat-->
-      <div class="container mb-5 pb-lg-4">
-        <div class="row">
-          <!-- Banner-->
-          <div class="col-lg-4 text-center text-lg-start mb-lg-0 mb-5"><a class="d-block text-decoration-none bg-faded-accent rounded-3 h-100" href="#">
-              <div class="p-4">
-                <h2 class="mb-0 p-2 text-primary text-nowrap"><i class="fi-phone mt-n1 me-2 pe-1 fs-3 align-middle"></i>Taxi<span class="text-dark">&nbsp;488</span></h2>
-                <p class="mb-0 p-2 fs-lg text-body">The best way to get wherever you’re going!</p>
-              </div><img src="{% static 'orgin/img/city-guide/illustrations/taxi.svg' %}" alt="Illustration"></a></div>
-          <!-- Where to eat-->
-          <div class="col-lg-8">
-            <div class="d-flex align-items-center justify-content-between mb-4 pb-2">
+        <div class="container mb-5 pb-lg-4">
+          <div class="row">
+            <!-- Banner-->
+            <div class="col-lg-12 text-center text-lg-start mb-lg-0 mb-5 bg-faded-accent d-flex justify-content-between rounded align-items-center">
+                <div class="p-4">
+                  <h2 class="mb-0 p-2 text-primary text-nowrap">Trending<span class="text-dark">&nbsp;Places</span></h2>
+                  <p class="mb-0 p-2 fs-lg text-body">The best way to get wherever you’re going!</p>
+                </div>
+                <img src="{% static 'orgin/img/city-guide/illustrations/taxi.svg' %}" alt="Illustration">
+           
             </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <!-- Item-->
-                <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{% static 'orgin/img/city-guide/brands/01.svg' %}" alt="Brand logo">
-                  <div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">Pina Pizza Restaurant</a></h3>
-                    <ul class="list-unstyled mb-0 fs-xs">
-                      <li><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>5.0</b><span class="text-muted">&nbsp;(48)</span></li>
-                      <li><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$$</li>
-                      <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>1.4 km from center</li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- Item-->
-                <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{% static 'orgin/img/city-guide/brands/02.svg' %}" alt="Brand logo">
-                  <div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">KFC</a></h3>
-                    <ul class="list-unstyled mb-0 fs-xs">
-                      <li><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.0</b><span class="text-muted">&nbsp;(18)</span></li>
-                      <li><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$</li>
-                      <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>1.8 km from center</li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- Item-->
-                <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{% static 'orgin/img/city-guide/brands/03.svg' %}" alt="Brand logo">
-                  <div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">Yum Restaurant</a></h3>
-                    <ul class="list-unstyled mb-0 fs-xs">
-                      <li><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>4.6</b><span class="text-muted">&nbsp;(48)</span></li>
-                      <li><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$</li>
-                      <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>2.4 km from center</li>
-                    </ul>
-                  </div>
-                </div>
+            <!-- Where to eat-->
+            <div class="col-lg-12">
+              <div class="d-flex align-items-center justify-content-between mb-4 pb-2">
               </div>
-              <div class="col-sm-6">
-                <!-- Item-->
-                <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{% static 'orgin/img/city-guide/brands/04.svg' %}" alt="Brand logo">
-                  <div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">Tosaka Sushi Bar</a></h3>
-                    <ul class="list-unstyled mb-0 fs-xs">
-                      <li><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>5.0</b><span class="text-muted">&nbsp;(28)</span></li>
-                      <li><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$$$</li>
-                      <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>2.5 km from center</li>
-                    </ul>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="row">
+                    {% for item in trending %}
+                    <!-- Item-->
+                    <div class="col-sm-4">
+                      <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{{ item.business_image_1.url }}" alt="Brand logo" style="width: 80px;height: 80px;">
+                        <div>
+                          <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="{% url 'business_detail' item.slug %}">{{item.business_name}}</a></h3>
+                          <ul class="list-unstyled mb-0 fs-xs">
+                            <li><i class="fi-credit-card mt-n1 me-1 fs-base text-warning align-middle"></i>{{item.business_type}}</li>
+                            <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>{{item.business_district}}</li>
+                            <li><i class="fa-solid fa-eye mt-n1 me-1 fs-base  text-muted align-middle"></i><b>{{item.views_count}}</b> views</li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
                   </div>
+
+
                 </div>
-                <!-- Item-->
-                <div class="d-flex align-items-start position-relative mb-4"><img class="flex-shrink-0 me-3 rounded-3" src="{% static 'orgin/img/city-guide/brands/05.svg' %}" alt="Brand logo">
-                  <div>
-                    <h3 class="mb-2 fs-lg"><a class="nav-link stretched-link" href="city-guide-single.html">Dunkin' Donuts</a></h3>
-                    <ul class="list-unstyled mb-0 fs-xs">
-                      <li><i class="fi-star-filled mt-n1 me-1 fs-base text-warning align-middle"></i><b>5.0</b><span class="text-muted">&nbsp;(43)</span></li>
-                      <li><i class="fi-credit-card mt-n1 me-1 fs-base text-muted align-middle"></i>$</li>
-                      <li><i class="fi-map-pin mt-n1 me-1 fs-base text-muted align-middle"></i>1.8 km from center</li>
-                    </ul>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
         </div>
-      </div>
 
 
       <!-- What’s new-->
@@ -390,7 +356,26 @@
           </div>
         </div>
       </section>
-      <!-- Blog: Latest posts-->
+
+             <!-- Blog: Latest posts-->
+      <section class="container my-5 py-lg-4">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4 pb-2">
+          <h2 class="h3 mb-sm-0">Hot Blogs</h2>
+        </div>
+        <!-- Carousel-->
+        <div class="tns-carousel-wrapper tns-nav-outside mb-md-2">
+          <div class="tns-carousel-inner d-block" data-carousel-options="{&quot;controls&quot;: false, &quot;gutter&quot;: 24, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1,&quot;nav&quot;:true},&quot;500&quot;:{&quot;items&quot;:2},&quot;850&quot;:{&quot;items&quot;:3},&quot;1200&quot;:{&quot;items&quot;:3}}}">
+           {% for item in businessblog %}
+            <!-- Item-->
+            <article><a class="d-block mb-3" href="{% url 'business_blog' item.slug %}"><img class="rounded-3" src="{{item.banner_image.url}}" alt="Post image"></a><a class="fs-xs text-uppercase text-decoration-none" href="#">{{item.business_type.name}}</a>
+              <h3 class="fs-base pt-1"><a class="nav-link" href="{% url 'business_blog' item.slug %}">{{item.name}}</a></h3><a class="d-flex align-items-center text-decoration-none" href="#">
+                <div class="ps-2">
+                </div></a>
+            </article>
+            {% endfor %}
+          </div>
+        </div>
+      </section>
 
     </main>
     <!-- Footer-->
